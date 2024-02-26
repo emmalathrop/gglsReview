@@ -1,32 +1,37 @@
-# #Common Assumptions:
-# #Equal variance
-# #Normality
-#
-# #Testing normality (changes the tests for variance):
-# #If sample is large enough (n > 30), we can use the Central Limit Theorem to say that the distribution is normal enough. Let's not go that route though. I want to test for normality and warn the user if this is not true.
-# #
-# #If one variable, use shapiro test
-#
-#
-#
-library(magrittr)
+#' Test Assumptions
+#'
+#' @param data The dataset being analyzed
+#' @param x X variable
+#' @param y Y (response) variable
+#' @param groups Grouping variable, if applicable. Default = NULL
+#' @param alpha Alpha for p-value evaluations. Default = 0.05
+#' @param plots Choose whether to include diagnostic plots in the case that assumptions are not met. Default = T
+#'
+#' @return
+#' @export
+#'
+#' @examples test_assumptions(ToothGrowth, supp, len, dose, alpha = 0.01,plots = F)
 test_assumptions <- function(data,
-                             x,
-                             y,
-                             groups = NULL,
-                             alpha = 0.05){
+                             x, #not in quotes
+                             y, #not in quotes
+                             groups = NULL, #not in quotes
+                             alpha = 0.05,
+                             plots = T #Displaying diagnostic plots
+                             ){
+
+  #library(magrittr)
+  #library(ggplot2)
 
    data <-  data %>%
      dplyr::mutate(x = as.factor({{ x }}),
                    y = {{ y }})
 
+    groups = substitute(groups)
+
    if (!is.null(groups)){ #if groups are included
      data <- data %>%
        dplyr::mutate(groups = as.factor({{ groups }}))
-     }
- # if(!is.factor(data[[groups]])) data[[groups]] <- as.factor(data[[groups]])
- # if(!is.factor(data[[x]])) {data[[x]] <- as.factor(data[[x]])}
-#  if(!is.factor(data[[y]])) {data[[y]] <- as.factor(data[[y]])}
+   }
 
    st <- data %>% #shapiro test for normality
       dplyr::group_by(x)%>%
@@ -41,12 +46,14 @@ test_assumptions <- function(data,
   }
 
    #Show a plot of the distribution
+
+   if (plots==T){
    dist <- ggplot2::ggplot(data, aes(sample = y))+
      stat_qq()+
      stat_qq_line()+
      labs(title = "Normal Probability Plot")
    print(dist)
-
+   }
   #Testing equal variances for ungrouped data
   if (is.null(groups)){
 
@@ -62,8 +69,10 @@ test_assumptions <- function(data,
     }
 
     data.aov <- aov(y~x, data = data)
-    print(plot(data.aov, 1)) #Look at residuals
 
+    if (plots == T){
+    print(plot(data.aov, 1)) #Look at residuals
+    } #plots
 
     }
   else { #grouped data
@@ -73,22 +82,25 @@ test_assumptions <- function(data,
 
    # vt <- leveneTest(formula = )
 
-    if (vt$p > alpha){
-      print("Variance Test indicates equal variances in the data")
+    if (any(vt$p < alpha)){
+      print("Variance Test indicates unequal variances in the data")
+      print(vt)
     }
     else {
-      print("Variance Test indicates unequal variances in the data")
+      print("Variance Test indicates equal variances in the data")
     }
 
     data.aov <- aov(y~x*groups, data = data)
-    print(plot(data.aov, 1))
 
+    if (plots == T){
+    print(plot(data.aov, 1))
+    } #plots
   }
 
 }
 
 # data("ToothGrowth")
-# test_assumptions(ToothGrowth, supp, len, dose)
+test_assumptions(ToothGrowth, supp, len, dose, alpha = 0.01,plots = T)
 
 
 
