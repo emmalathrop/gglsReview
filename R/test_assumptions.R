@@ -21,27 +21,38 @@ test_assumptions <- function(data,
 
   #library(magrittr)
   #library(ggplot2)
+    out <- matrix(nrow = 2, ncol = 2)
+    colnames(out) <- c("Assumption", "Decision")
 
-   data <-  data %>%
-     dplyr::mutate(x = as.factor({{ x }}),
-                   y = {{ y }})
+
+    data <-  data %>%
+      dplyr::mutate(x = as.factor({{ x }}),
+                    y = {{ y }})
 
     groups = substitute(groups)
 
-   if (!is.null(groups)){ #if groups are included
-     data <- data %>%
-       dplyr::mutate(groups = as.factor({{ groups }}))
-   }
+   #Data prepping steps now in prep_data functiion, need to figure that out better
+    if (!is.null(groups)){
+     # data <- prep_data(data, x, y, groups)
+       data <- data %>%
+         dplyr::mutate(groups = as.factor({{ groups }}))
+      }
+    else {
+      #data <- prep_data(data, x, y)
+    }
 
    st <- data %>% #shapiro test for normality
       dplyr::group_by(x)%>%
       rstatix::shapiro_test(y)
 
   if (any(st$p < alpha)){
+
+    out[1,] <- c("Shapiro Normality", "Fail")
     print("Shapiro Test indicates non-normal distribution in the data")
 
   }
   else {
+    out[1,] <- c("Shapiro Normality", "Pass")
     print("Shapiro Test indicates normal distribution in the data")
   }
 
@@ -62,9 +73,11 @@ test_assumptions <- function(data,
       rstatix::levene_test(formula = y ~ x)
 
     if (vt$p > alpha){
+      out[2,] <- c("Levene Variance", "Pass")
       print("Variance Test indicates equal variances in the data")
     }
     else {
+      out[2,] <- c("Levene Variance", "Fail")
       print("Variance Test indicates unequal variances in the data")
     }
 
@@ -83,17 +96,18 @@ test_assumptions <- function(data,
    # vt <- leveneTest(formula = )
 
     if (any(vt$p < alpha)){
+      out[2,] <- c("Levene Variance", "Fail")
       print("Variance Test indicates unequal variances in the data")
       print(vt)
     }
     else {
+      out[2,] <- c("Levene Variance", "Pass")
       print("Variance Test indicates equal variances in the data")
     }
 
-    data.aov <- aov(y~x*groups, data = data)
-
     if (plots == T){
-    print(plot(data.aov, 1))
+      data.aov <- aov(y~x*groups, data = data)
+      print(plot(data.aov, 1))
     } #plots
   }
 
@@ -102,6 +116,7 @@ test_assumptions <- function(data,
 # data("ToothGrowth")
 test_assumptions(ToothGrowth, supp, len, dose, alpha = 0.01,plots = T)
 
+#Broke dose again somehow
 
 
 
