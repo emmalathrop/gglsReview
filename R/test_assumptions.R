@@ -31,15 +31,17 @@ test_assumptions <- function(data,
 
     groups = substitute(groups)
 
-   #Data prepping steps now in prep_data functiion, need to figure that out better
-    if (!is.null(groups)){
-     # data <- prep_data(data, x, y, groups)
-       data <- data %>%
-         dplyr::mutate(groups = as.factor({{ groups }}))
-      }
-    else {
-      #data <- prep_data(data, x, y)
-    }
+   # ds <- prep_data(data, x, y, groups)
+
+   #Data prepping steps now in prep_data function, need to figure that out better
+     if (!is.null(groups)){
+     #  data <- prep_data(data, x, y, groups)
+        data <- data %>%
+          dplyr::mutate(groups = as.factor({{ groups }}))
+       }
+   #  else {
+   #    data <- prep_data(data, x, y)
+   #  }
 
    st <- data %>% #shapiro test for normality
       dplyr::group_by(x)%>%
@@ -66,6 +68,8 @@ test_assumptions <- function(data,
    print(dist)
    }
   #Testing equal variances for ungrouped data
+   groups <- substitute(groups)
+
   if (is.null(groups)){
 
     #for ungrouped data
@@ -110,13 +114,11 @@ test_assumptions <- function(data,
       print(plot(data.aov, 1))
     } #plots
   }
-
+ return(out)
 }
 
 # data("ToothGrowth")
-test_assumptions(ToothGrowth, supp, len, dose, alpha = 0.01,plots = T)
-
-#Broke dose again somehow
+test_assumptions(ToothGrowth, supp, len, dose, alpha = 0.01,plots = F)
 
 
 

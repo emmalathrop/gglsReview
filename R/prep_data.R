@@ -14,10 +14,13 @@ prep_data <- function(data, x, y, groups = NULL){
 
   }
 
+   return(data)
+   invisible()
+
 }
 
 ds <- prep_data(ToothGrowth, supp, len, dose)
 head(ds)
-ds2 <- prep_data(ToothGrowth, supp, len)
+ds2 <- prep_data(ToothGrowth, supp, len, groups = dose)
 head(ds2)
-#something is wrong with the groups again
+

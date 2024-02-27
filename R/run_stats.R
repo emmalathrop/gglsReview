@@ -8,9 +8,25 @@ run_stats <- function(data,
 
 ){
 
+  #data prep start
+  data <-  data %>%
+    dplyr::mutate(x = as.factor({{ x }}),
+                  y = {{ y }})
+
+  groups = substitute(groups)
+
+  #Ideally data prep will be in prep_data function, need to figure that out better
+  if (!is.null(groups)){
+    #  data <- prep_data(data, x, y, groups)
+    data <- data %>%
+      dplyr::mutate(groups = as.factor({{ groups }}))
+  }
+  #Data prep end
+
   if (test == "linear" & is.null(groups)){
 
-    summary(lm(y~x, data))
+    res <- summary(lm(y~x, data))
+    print(res)
 
   } #if test = linear and no groups
 
@@ -18,16 +34,53 @@ run_stats <- function(data,
 
     if (interactions ==T){
 
-      summary(lm(y~x*groups, data))
+      res <- summary(lm(y~x*groups, data))
+      print(res)
 
     } #if test = linear and yes groups and yes interactions
 
     if (interactions ==F){
 
-      summary(lm(y~x+groups, data))
+      res <- summary(lm(y~x+groups, data)) #what about if multiple groups?
+      p <- unlist(res$coefficients)[2,4]
+      print(res)
 
     } #if test = linear and yes groups and yes interactions
 
   }#If linear and groups != NULL
 
-} #Close function brackets
+  if (test == "ANOVA" & is.null(groups)){
+
+    res <- summary(lm(y~x, data))
+    #print(res)
+    out <- unname(unlist(TukeyHSD(aov(y~x, data))))[4]
+
+  } #ANOVA, no groups
+
+  if (test == "ANOVA" & !is.null(groups)){
+
+    if (interactions ==T){
+
+    res <- summary(aov(y~x*groups, data))
+    print(res)
+
+    } #Interactions true
+
+    if (interactions ==F){
+
+      m3 <- lm(y ~ x + groups, data=data)
+      out <- emmeans(m3, spec= ~x)  %>%
+        multcomp::cld(Letters=letters)
+
+    } #Interactions false
+
+  } #ANOVA, yes groups
+
+  return(out)
+
+} #Close function bracket
+
+TukeyHSD((aov(len ~ supp, ToothGrowth)))
+
+run_stats(ToothGrowth, supp, len, dose, test =
+            "ANOVA", interactions = F)
