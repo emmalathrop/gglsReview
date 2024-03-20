@@ -7,12 +7,12 @@
 #' @param alpha Alpha for p-value evaluations. Default = 0.05
 #' @param plots Choose whether to include diagnostic plots in the case that assumptions are not met. Default = T
 #'
-#' @import magrittr
-#' @import ggplot2
-#' @import dplyr
-#' @import rstatix
+#' @import magrittr for the pipe
+#' @import ggplot2 for the plot
+#' @import dplyr for the mutate
+#' @import rstatix for the stats
 #'
-#' @return
+#' @return out
 #' @export
 #'
 #' @examples test_assumptions(ToothGrowth, supp, len, dose, alpha = 0.01,plots = F)

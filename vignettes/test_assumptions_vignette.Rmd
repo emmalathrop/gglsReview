@@ -5,6 +5,8 @@ vignette: >
   %\VignetteIndexEntry{test_assumptions_vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+imports: dplyr
+
 ---
 
 ```{r, include = FALSE}

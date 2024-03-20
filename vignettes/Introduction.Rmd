@@ -15,6 +15,6 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(ggls)
+#library(ggls)
 #Add other packages you'll need here
 ```

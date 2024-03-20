@@ -4,7 +4,7 @@
 \alias{test_assumptions}
 \title{Test Assumptions}
 \usage{
-test_assumptions(data, x, y, groups = NULL, alpha = 0.05, plots = T)
+test_assumptions(data, x, y, groups = NULL, alpha = 0.05, plots = F)
 }
 \arguments{
 \item{data}{The dataset being analyzed}
