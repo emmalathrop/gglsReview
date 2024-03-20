@@ -1,8 +1,26 @@
+#' Title
+#'
+#' @param data
+#' @param x
+#' @param y
+#' @param groups
+#' @param test
+#' @param interactions
+#' @param parametric
+#'
+#' @import dplyr
+#' @import magrittr
+#' @import emmeans
+#'
+#' @return
+#' @export
+#'
+#' @examples
 run_stats <- function(data,
          x, #not in quotes
          y, #not in quotes
          groups = NULL, #not in quotes
-         test = "suggested", #If "suggested", this function will choose a test based on the data types. Other options: "linear", "logistic", "paired t", "independent t", "ANOVA", "MANOVA", "Pearson", "Spearman", "Chi square", "Kruskal-Wallis", "ANOSIM", "Wilcoxon Rank-Sum", "Wilcoxon Signed-Rank"
+         test = "ANOVA", #Change default back to suggested once that works.  If "suggested", this function will choose a test based on the data types. Other options: "linear", "logistic", "paired t", "independent t", "ANOVA", "MANOVA", "Pearson", "Spearman", "Chi square", "Kruskal-Wallis", "ANOSIM", "Wilcoxon Rank-Sum", "Wilcoxon Signed-Rank"
          interactions = T, #Choose if you want to test interactions between x and grouping variable
          parametric = T
 
@@ -53,7 +71,7 @@ run_stats <- function(data,
 
     res <- summary(lm(y~x, data))
     #print(res)
-    out <- unname(unlist(TukeyHSD(aov(y~x, data))))[4]
+    out <- unname(unlist(TukeyHSD(aov(y~factor(x), data))))[4]
 
   } #ANOVA, no groups
 
@@ -61,15 +79,16 @@ run_stats <- function(data,
 
     if (interactions ==T){
 
-    res <- summary(aov(y~x*groups, data))
-    print(res)
+      m3 <- lm(y ~ x * groups, data=data)
+      out <- emmeans::emmeans(m3, spec= ~x)  %>%
+        multcomp::cld(Letters=letters)
 
     } #Interactions true
 
     if (interactions ==F){
 
       m3 <- lm(y ~ x + groups, data=data)
-      out <- emmeans(m3, spec= ~x)  %>%
+      out <- emmeans::emmeans(m3, spec= ~x)  %>%
         multcomp::cld(Letters=letters)
 
     } #Interactions false
@@ -79,8 +98,3 @@ run_stats <- function(data,
   return(out)
 
 } #Close function bracket
-
-TukeyHSD((aov(len ~ supp, ToothGrowth)))
-
-run_stats(ToothGrowth, supp, len, dose, test =
-            "ANOVA", interactions = F)

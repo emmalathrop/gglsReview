@@ -1,5 +1,21 @@
+#' Title
+#'
+#' @param data
+#' @param x
+#' @param y
+#' @param groups
+#'
+#' @import magrittr
+#' @import dplyr
+#'
+#' @return
+#' @export
+#'
+#' @examples
 prep_data <- function(data, x, y, groups = NULL){
   #Prep datasets for the functions in this package, internal
+
+  library(magrittr)
 
    data <-  data %>%
      dplyr::mutate(x = as.factor({{ x }}),
@@ -19,8 +35,8 @@ prep_data <- function(data, x, y, groups = NULL){
 
 }
 
-ds <- prep_data(ToothGrowth, supp, len, dose)
-head(ds)
-ds2 <- prep_data(ToothGrowth, supp, len, groups = dose)
-head(ds2)
+# ds <- prep_data(ToothGrowth, supp, len, dose)
+# head(ds)
+# ds2 <- prep_data(ToothGrowth, supp, len, groups = dose)
+# head(ds2)
 

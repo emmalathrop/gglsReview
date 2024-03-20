@@ -1,0 +1,35 @@
+---
+title: "Testing Normality and Variance Assumptions in Data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{test_assumptions_vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(ggls)
+```
+
+Test if your data adheres to the common assumptions of many statistical tests, including normal distribution and equality of variances.
+
+```{r}
+ggls::test_assumptions(ToothGrowth, supp, len)
+```
+
+The output tells you the result.
+
+If you want to change the p-value, you can do that.
+
+```{r}
+ggls::test_assumptions(ToothGrowth, supp, len, alpha = 0.01)
+```
+
+You can also include diagnostic plots, but this feature is still in beta testing and maybe will break if you try to do it. SO maybe don't try that right now.

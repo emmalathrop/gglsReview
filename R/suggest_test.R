@@ -24,19 +24,9 @@ test <- test_assumptions(data, x, y, groups)
 
 if (test[1,2] == "Pass" & test[2,2] == "Pass"){ #If pass normality and equality of variances tests
 
-  if (x)
+#  if (x)
 
 } #if pass tests
 
 }
 
-ds <- test_assumptions(ToothGrowth, supp, len, dose)
-
-test <- ToothGrowth %>%
-  dplyr::mutate(supp = as.factor(supp),
-                len = len,
-                dose = factor(dose))
-
-is.factor(ToothGrowth$dose)
-
-#issues: currently x is always treated as a factor, come back to this
