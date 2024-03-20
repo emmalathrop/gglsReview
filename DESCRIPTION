@@ -14,8 +14,10 @@ Depends:
 LazyData: true
 Imports: 
     dplyr,
+    emmeans,
     ggplot2,
-    magrittr
+    magrittr,
+    rstatix
 Suggests: 
     knitr,
     rmarkdown,

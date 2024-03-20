@@ -19,6 +19,9 @@ test_assumptions(data, x, y, groups = NULL, alpha = 0.05, plots = F)
 
 \item{plots}{Choose whether to include diagnostic plots in the case that assumptions are not met. Default = T}
 }
+\value{
+out
+}
 \description{
 Test Assumptions
 }

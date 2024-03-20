@@ -14,14 +14,11 @@ comparison_maker(data, x, comparisons = "all")
 \item{groups}{The column name that contains the groups you are wanting to compare}
 }
 \value{
-A list of comparisons to be made
+comparisons
 }
 \description{
 Comparison Maker
 }
 \examples{
-input <- comparison_maker(ds, "Sample")
-plot(ds, aes(x=Sample, y=Values))+
- geom_boxplot()+
- stat_compare_means(comparisons = input)
+something
 }

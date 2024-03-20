@@ -4,22 +4,20 @@
 #' @param groups The column name that contains the groups you are wanting to compare
 #' @param comparisons Default is "all". If you do not want to compare all variables to each other within your grouping column, then you can specify which comparisons you want instead.
 #'
-#' @return A list of comparisons to be made
+#' @return comparisons
 #' @export
 #'
-#' @examples
-#' input <- comparison_maker(ds, "Sample")
-#' plot(ds, aes(x=Sample, y=Values))+
-#'  geom_boxplot()+
-#'  stat_compare_means(comparisons = input)
+#' @examples something
 comparison_maker <- function(data,
                              x,
                              comparisons = "all"){
-    x <- enquo(x)
+   # x <- enquo(x) come back to this
+
+  data <- droplevels(data$x)
 
     if (comparisons == "all"){
 
-    comps <- offset <- unname(unlist(unique(select(data, groups))))
+    comps <- offset <- unname(unlist(unique(dplyr::select(data, x))))
     comparisons <- list() #Empty comparisons list
 
 
@@ -30,7 +28,7 @@ comparison_maker <- function(data,
       for (j in 1:length(offset)){
 
         if (!is.na(offset[j])){
-          this_comp <- list(c(comps[j], offset[j]))
+          this_comp <- list(c(comps[[j]], offset[[j]]))
           comparisons <- c(comparisons, this_comp)
         } #close the if statement
 

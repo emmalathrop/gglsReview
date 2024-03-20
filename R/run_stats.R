@@ -1,21 +1,22 @@
 #' Title
 #'
-#' @param data
-#' @param x
-#' @param y
-#' @param groups
-#' @param test
-#' @param interactions
-#' @param parametric
+#' @param data dataset
+#' @param x x
+#' @param y y
+#' @param groups groups
+#' @param test test
+#' @param interactions ints
+#' @param parametric parametric
 #'
-#' @import dplyr
 #' @import magrittr
+#' @import dplyr
 #' @import emmeans
+#' @import rstatix
 #'
-#' @return
+#' @return out
 #' @export
 #'
-#' @examples
+#' @examples x
 run_stats <- function(data,
          x, #not in quotes
          y, #not in quotes

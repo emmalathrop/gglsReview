@@ -1,21 +1,21 @@
 #' Title
 #'
-#' @param data
-#' @param x
-#' @param y
-#' @param groups
+#' @param data data
+#' @param x x
+#' @param y y
+#' @param groups groups
 #'
+#'
+#' @return data
 #' @import magrittr
 #' @import dplyr
-#'
-#' @return
 #' @export
 #'
-#' @examples
+#' @examples x
 prep_data <- function(data, x, y, groups = NULL){
   #Prep datasets for the functions in this package, internal
 
-  library(magrittr)
+
 
    data <-  data %>%
      dplyr::mutate(x = as.factor({{ x }}),

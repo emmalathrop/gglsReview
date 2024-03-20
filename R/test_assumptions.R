@@ -7,12 +7,12 @@
 #' @param alpha Alpha for p-value evaluations. Default = 0.05
 #' @param plots Choose whether to include diagnostic plots in the case that assumptions are not met. Default = T
 #'
-#' @import magrittr for the pipe
-#' @import ggplot2 for the plot
-#' @import dplyr for the mutate
-#' @import rstatix for the stats
 #'
 #' @return out
+#' @import magrittr
+#' @import dplyr
+#' @import ggplot2
+#' @import rstatix
 #' @export
 #'
 #' @examples test_assumptions(ToothGrowth, supp, len, dose, alpha = 0.01,plots = F)
@@ -24,8 +24,10 @@ test_assumptions <- function(data,
                              plots = F #Displaying diagnostic plots
                              ){
 
-  #library(magrittr)
-  #library(ggplot2)
+  # require(magrittr)
+  # require(ggplot2)
+  # require(dplyr)
+
     out <- matrix(nrow = 2, ncol = 2)
     colnames(out) <- c("Assumption", "Decision")
 

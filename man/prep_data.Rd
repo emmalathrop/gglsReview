@@ -7,8 +7,20 @@
 prep_data(data, x, y, groups = NULL)
 }
 \arguments{
-\item{groups}{}
+\item{data}{data}
+
+\item{x}{x}
+
+\item{y}{y}
+
+\item{groups}{groups}
+}
+\value{
+data
 }
 \description{
 Title
+}
+\examples{
+x
 }
