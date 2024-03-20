@@ -1,5 +1,5 @@
 ---
-title: "Testing Normality and Variance Assumptions in Data"
+title: "test_assumptions_vignette"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{test_assumptions_vignette}
