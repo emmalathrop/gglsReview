@@ -4,7 +4,7 @@
 \alias{test_assumptions}
 \title{Test Assumptions}
 \usage{
-test_assumptions(data, x, y, groups = NULL, alpha = 0.05, plots = F)
+test_assumptions(data, x, y, groups = NULL, alpha = 0.05, plots = FALSE)
 }
 \arguments{
 \item{data}{The dataset being analyzed}
@@ -26,5 +26,5 @@ out
 Test Assumptions
 }
 \examples{
-test_assumptions(ToothGrowth, supp, len, dose, alpha = 0.01,plots = F)
+test_assumptions(ToothGrowth, supp, len, dose, alpha = 0.01)
 }

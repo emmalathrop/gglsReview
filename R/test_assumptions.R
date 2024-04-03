@@ -13,15 +13,16 @@
 #' @import dplyr
 #' @import ggplot2
 #' @import rstatix
+#' @import stats
 #' @export
 #'
-#' @examples test_assumptions(ToothGrowth, supp, len, dose, alpha = 0.01,plots = F)
+#' @examples test_assumptions(ToothGrowth, supp, len, dose, alpha = 0.01)
 test_assumptions <- function(data,
                              x, #not in quotes
                              y, #not in quotes
                              groups = NULL, #not in quotes
                              alpha = 0.05,
-                             plots = F #Displaying diagnostic plots
+                             plots = FALSE #Displaying diagnostic plots
                              ){
 
   # require(magrittr)
@@ -92,7 +93,7 @@ test_assumptions <- function(data,
       print("Variance Test indicates unequal variances in the data")
     }
 
-    data.aov <- aov(y~x, data = data)
+    data.aov <- stats::aov(y~x, data = data)
 
     if (plots == T){
     print(plot(data.aov, 1)) #Look at residuals
@@ -117,7 +118,7 @@ test_assumptions <- function(data,
     }
 
     if (plots == T){
-      data.aov <- aov(y~x*groups, data = data)
+      data.aov <- stats::aov(y~x*groups, data = data)
       print(plot(data.aov, 1))
     } #plots
   }

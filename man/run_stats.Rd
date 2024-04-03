@@ -36,5 +36,5 @@ out
 Title
 }
 \examples{
-x
+run_stats(ToothGrowth, supp, len)
 }

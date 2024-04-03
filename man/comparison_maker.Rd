@@ -9,9 +9,9 @@ comparison_maker(data, x, comparisons = "all")
 \arguments{
 \item{data}{The dataset you are inputting}
 
-\item{comparisons}{Default is "all". If you do not want to compare all variables to each other within your grouping column, then you can specify which comparisons you want instead.}
+\item{x}{The column name that contains the groups you are wanting to compare}
 
-\item{groups}{The column name that contains the groups you are wanting to compare}
+\item{comparisons}{Default is "all". If you do not want to compare all variables to each other within your grouping column, then you can specify which comparisons you want instead.}
 }
 \value{
 comparisons
@@ -20,5 +20,5 @@ comparisons
 Comparison Maker
 }
 \examples{
-something
+comparison_maker(ToothGrowth, supp)
 }

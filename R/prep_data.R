@@ -11,7 +11,7 @@
 #' @import dplyr
 #' @export
 #'
-#' @examples x
+#' @examples prep_data(ToothGrowth, supp, len)
 prep_data <- function(data, x, y, groups = NULL){
   #Prep datasets for the functions in this package, internal
 

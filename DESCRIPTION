@@ -17,6 +17,7 @@ Imports:
     emmeans,
     ggplot2,
     magrittr,
+    multcomp,
     rstatix
 Suggests: 
     knitr,

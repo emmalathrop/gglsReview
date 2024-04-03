@@ -12,11 +12,13 @@
 #' @import dplyr
 #' @import emmeans
 #' @import rstatix
+#' @import stats
+#' @import multcomp
 #'
 #' @return out
 #' @export
 #'
-#' @examples x
+#' @examples run_stats(ToothGrowth, supp, len)
 run_stats <- function(data,
          x, #not in quotes
          y, #not in quotes
@@ -44,7 +46,7 @@ run_stats <- function(data,
 
   if (test == "linear" & is.null(groups)){
 
-    res <- summary(lm(y~x, data))
+    res <- summary(stats::lm(y~x, data))
     print(res)
 
   } #if test = linear and no groups
@@ -53,14 +55,14 @@ run_stats <- function(data,
 
     if (interactions ==T){
 
-      res <- summary(lm(y~x*groups, data))
+      res <- summary(stats::lm(y~x*groups, data))
       print(res)
 
     } #if test = linear and yes groups and yes interactions
 
     if (interactions ==F){
 
-      res <- summary(lm(y~x+groups, data)) #what about if multiple groups?
+      res <- summary(stats::lm(y~x+groups, data)) #what about if multiple groups?
       p <- unlist(res$coefficients)[2,4]
       print(res)
 
@@ -70,9 +72,9 @@ run_stats <- function(data,
 
   if (test == "ANOVA" & is.null(groups)){
 
-    res <- summary(lm(y~x, data))
+    res <- summary(stats::lm(y~x, data))
     #print(res)
-    out <- unname(unlist(TukeyHSD(aov(y~factor(x), data))))[4]
+    out <- unname(unlist(stats::TukeyHSD(aov(y~factor(x), data))))[4]
 
   } #ANOVA, no groups
 
@@ -80,7 +82,7 @@ run_stats <- function(data,
 
     if (interactions ==T){
 
-      m3 <- lm(y ~ x * groups, data=data)
+      m3 <- stats::lm(y ~ x * groups, data=data)
       out <- emmeans::emmeans(m3, spec= ~x)  %>%
         multcomp::cld(Letters=letters)
 

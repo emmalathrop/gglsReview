@@ -22,5 +22,5 @@ data
 Title
 }
 \examples{
-x
+prep_data(ToothGrowth, supp, len)
 }
