@@ -1,0 +1,9 @@
+pandoc: 3.1.11
+pkgdown: 2.0.7
+pkgdown_sha: ~
+articles:
+  Introduction: Introduction.html
+  comparison_maker: comparison_maker.html
+  test_assumptions_vignette: test_assumptions_vignette.html
+last_built: 2024-04-03T17:48Z
+
